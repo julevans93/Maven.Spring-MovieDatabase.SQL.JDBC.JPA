@@ -64,3 +64,5 @@ CREATE TABLE auto_prices (
 DROP SEQUENCE hibernate_sequence;
 
 CREATE SEQUENCE hibernate_sequence;
+
+INSERT INTO PERSON (FIRST_NAME, LAST_NAME, MOBILE, BIRTHDAY, HOME_ID)
