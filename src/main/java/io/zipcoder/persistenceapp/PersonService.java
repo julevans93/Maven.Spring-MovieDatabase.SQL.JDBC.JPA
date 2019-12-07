@@ -18,7 +18,7 @@ public class PersonService {
     private JdbcTemplate jdbcTemplate;
 
     @PostMapping("/people")
-    public ResponseEntity<Person> addPerson(@RequestBody Person person){
+    public ResponseEntity<Person> createPerson(@RequestBody Person person){
         this.jdbcTemplate.execute("INSERT INTO person (FIRST_NAME, LAST_NAME, MOBILE, BIRTHDAY, HOME_ID)" +
                 "values ('"+ person.getFirstName() + "', '"+ person.getLastName() +"', '"+ person.getMobile()+"' );");
         return new ResponseEntity<>(HttpStatus.OK);
@@ -34,6 +34,11 @@ public class PersonService {
         }
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+    @GetMapping("/people/{id}")
+    public ResponseEntity findById(Integer id){
+        this.jdbcTemplate.execute("DELETE * FROM person WHERE id = "+ id +";");
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
     @DeleteMapping("/people/{id}")
     public ResponseEntity deletePerson(@PathVariable Integer id){
@@ -41,27 +46,33 @@ public class PersonService {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/people/{id}")
-    public ResponseEntity findById(Integer id){
-        this.jdbcTemplate.execute("DELETE * FROM person WHERE id = "+ id +";");
+    @GetMapping("/people")
+    public ResponseEntity getAllPeople(){
+        this.jdbcTemplate.execute("SELECT * FROM person");
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/people/firstname")
-    public ResponseEntity peopleByFirstName(String firstName){
-        this.jdbcTemplate.execute("SELECT * FROM person WHERE FIRST_NAME = '"+firstName+"';");
+    @GetMapping("/people/reverselookup/{mobileNumber}")
+    public ResponseEntity findByMobile(@PathVariable String mobileNumber){
+        this.jdbcTemplate.execute("SELECT * FROM person WHERE MOBILE = '"+ mobileNumber +"';");
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/people/lastname")
-    public ResponseEntity peopleByLastName(String lastName){
+    @GetMapping("/people/surname/{lastname}")
+    public ResponseEntity peopleByLastName(@PathVariable String lastName){
         this.jdbcTemplate.execute("SELECT * FROM person WHERE LAST_NAME = '"+lastName+"';");
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @GetMapping("/people/birthday")
-    public ResponseEntity peopleByBirthday(String birthDate){
-        this.jdbcTemplate.execute("SELECT * FROM person WHERE BIRTHDAY = '"+birthDate+"';");
+    @GetMapping("/people/surname")
+    public ResponseEntity lastNameResult(){
+        this.jdbcTemplate.execute("SELECT LAST_NAME FROM person;");
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/people/firstname/stats")
+    public ResponseEntity firstNameFrequency(){
+        this.jdbcTemplate.execute("SELECT FIRST_NAME, COUNT (FIRST_NAME) FROM person GROUP BY FIRST_NAME;");
         return new ResponseEntity(HttpStatus.OK);
     }
 }

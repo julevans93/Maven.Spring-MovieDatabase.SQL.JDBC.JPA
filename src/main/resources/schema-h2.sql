@@ -66,3 +66,14 @@ DROP SEQUENCE hibernate_sequence;
 CREATE SEQUENCE hibernate_sequence;
 
 INSERT INTO PERSON (FIRST_NAME, LAST_NAME, MOBILE, BIRTHDAY, HOME_ID)
+VALUES ('John', 'Doe', '609-555-1234', '1993-8-28', 1 ),
+       ('Jane', 'Doe', '302-123-456', '1988-1-20', 1),
+       ('Jack', 'Hill', '410-908-5467', '1990-8-30', 2),
+       ('Jill', 'Hill', '543-098-9403', '1995-12-25', 2),
+       ('Harry', 'Brown', '234-908-6547', '2000-11-27', 3),
+       ('Glenda', 'White', '856-546-1243', '1992-3-6', 4);
+
+INSERT INTO HOME (ADDRESS, HOMENUMBER) VALUES ( '36.  Bayberry Rd. Savannah, GA 31404', '565-6895'),
+                                              ('11 Essex Dr. Farmingdale, NY 11735', '454-4544'),
+                                              ('920 Arlington Street, Clifton, NJ 07011', '985-4515'),
+                                              ('234 High Street, PA 19159', '267-3940');
